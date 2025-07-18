@@ -51,7 +51,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-
+    volumes:
+      - ./credentials:/app/credentials:ro  # Монтируем папку в контейнер
     environment:
       POSTGRES_HOST: postgres
       POSTGRES_PORT: ${POSTGRES_PORT}
@@ -60,6 +61,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PORT: ${APP_PORT}
       NODE_ENV: production
+      GOOGLE_CREDENTIALS_PATH: ${GOOGLE_CREDENTIALS_PATH}
+      WB_API_TOKEN: ${WB_API_TOKEN}
 
     ports:
       - ${APP_PORT}:${APP_PORT}

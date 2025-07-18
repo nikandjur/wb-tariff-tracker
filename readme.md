@@ -1,54 +1,26 @@
-# Шаблон для выполнения тестового задания
+# WB Tariff Tracker
+Сервис для регулярного получения тарифов Wildberries и обновления данных в Google Sheets.
 
-## Описание
-Шаблон подготовлен для того, чтобы попробовать сократить трудоемкость выполнения тестового задания.
-
-В шаблоне настоены контейнеры для `postgres` и приложения на `nodejs`.  
-Для взаимодействия с БД используется `knex.js`.  
-В контейнере `app` используется `build` для приложения на `ts`, но можно использовать и `js`.
-
-Шаблон не является обязательным!\
-Можно использовать как есть или изменять на свой вкус.
-
-Все настройки можно найти в файлах:
-- compose.yaml
-- dockerfile
-- package.json
-- tsconfig.json
-- src/config/env/env.ts
-- src/config/knex/knexfile.ts
-
-## Команды:
-
-Запуск базы данных:
+## Установка
 ```bash
-docker compose up -d --build postgres
-```
+git clone https://github.com/nikandjur/wb-tariff-tracker.git
+cd wb-tariff-tracker
+cp example.env .env
 
-Для выполнения миграций и сидов не из контейнера:
-```bash
-npm run knex:dev migrate latest
-```
+положите your_wb_token в файл .env 
+WB_API_TOKEN=your_wb_token
 
-```bash
-npm run knex:dev seed run
-```
-Также можно использовать и остальные команды (`migrate make <name>`,`migrate up`, `migrate down` и т.д.)
+Положите JSON-ключ от Google Service Account в: 
+credentials/service-account.json
 
-Для запуска приложения в режиме разработки:
-```bash
-npm run dev
-```
+тестовые таблицы  создать самостоятельно на Google Sheets, лист для тарифов назвать - stocks_coefs
+ID Google Sheets таблиц вставить в src\postgres\seeds\spreadsheets.js, в значение ключа spreadsheet_id
 
-Запуск проверки самого приложения:
-```bash
-docker compose up -d --build app
-```
+Установите зависимости:
+npm install
 
-Для финальной проверки рекомендую:
-```bash
-docker compose down --rmi local --volumes
-docker compose up --build
-```
+Запустите:
+docker compose up
 
-PS: С наилучшими пожеланиями!
+Смотреть логи:
+docker logs -f app
